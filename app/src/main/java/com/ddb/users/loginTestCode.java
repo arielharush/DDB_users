@@ -3,7 +3,9 @@ package com.ddb.users;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -178,7 +180,7 @@ public class loginTestCode extends AppCompatActivity {
         TextView firstNameTextView = findViewById(R.id.first_name);
         TextView lastNameTextView = findViewById(R.id.last_name);
         TextView phoneNumberTextView = findViewById(R.id.phone_number);
-        TextView genderTextView = findViewById(R.id.gender);
+        Spinner genderSpinner = findViewById(R.id.gender);
         TextView emailTextView = findViewById(R.id.email);
         TextView countryTextView = findViewById(R.id.country);
         TextView cityTextView = findViewById(R.id.city);
@@ -202,7 +204,7 @@ public class loginTestCode extends AppCompatActivity {
         DatabaseReference rootRef = FirebaseDatabase.getInstance("https://dblogisticare.firebaseio.com/").getReference("users");
         rootRef = rootRef.child(mAuth.getCurrentUser().getPhoneNumber());
         Address address = new Address(countryTextView.getText().toString(), cityTextView.getText().toString(), streetTextView.getText().toString(), numberTextView.getText().toString(), zipCodeTextView.getText().toString(), 0, 0);
-        User user = new User(mAuth.getCurrentUser().getPhoneNumber(), firstNameTextView.getText().toString(), lastNameTextView.getText().toString(), emailTextView.getText().toString(), address, User.stringToGender(genderTextView.getText().toString()));
+        User user = new User(mAuth.getCurrentUser().getPhoneNumber(), firstNameTextView.getText().toString(), lastNameTextView.getText().toString(), emailTextView.getText().toString(), address, User.stringToGender(genderSpinner.getSelectedItemId() + ""));
         rootRef.setValue(user);
         goToMainActivity();
     }
@@ -232,6 +234,11 @@ public class loginTestCode extends AppCompatActivity {
                                         TextView phoneNumberTextView = findViewById(R.id.phone_number);
                                         mAuth = FirebaseAuth.getInstance();
                                         phoneNumberTextView.setText(mAuth.getCurrentUser().getPhoneNumber());
+                                        Spinner spinnerBreakable = (Spinner) findViewById(R.id.gender);
+                                        ArrayAdapter<CharSequence> adapter_breakable;
+                                        adapter_breakable = ArrayAdapter.createFromResource(loginTestCode.this, R.array.gender_list, android.R.layout.simple_spinner_item);
+                                        adapter_breakable.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                        spinnerBreakable.setAdapter(adapter_breakable);
                                         findViewById(R.id.buttonOk).setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {

@@ -131,7 +131,7 @@
                     android:inputType="phone"
                     android:enabled="false" />
 
-                <EditText
+                <Spinner
                     android:id="@+id/gender"
 
                     android:layout_height="wrap_content"
@@ -142,7 +142,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/phone_number"
                     app:layout_constraintTop_toBottomOf="@id/first_name"
-                    android:hint="gender"
                     android:layout_width="0dp"
                     app:layout_constraintWidth_percent="0.5"
                     android:maxLength="10"
