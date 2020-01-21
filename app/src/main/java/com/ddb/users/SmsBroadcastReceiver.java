@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 public class SmsBroadcastReceiver extends BroadcastReceiver {
 
-    public static final String SMS_BUNDLE = "pdus";
+    public static final String SMS_BUNDLE = "";
 
     public void onReceive(Context context, Intent intent) {
         Bundle intentExtras = intent.getExtras();
@@ -20,29 +20,22 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
                 SmsMessage smsMessage = SmsMessage.createFromPdu((byte[]) sms[i]);
 
                 String smsBody = smsMessage.getMessageBody().toString();
-                String address = smsMessage.getOriginatingAddress();
 
 
                 smsMessageStr = smsBody;
             }
-            //Toast.makeText(context, smsMessageStr, Toast.LENGTH_SHORT).show();
-
-            //this will update the UI with message
             loginTestCode inst = loginTestCode.instance();
             String[] arrOfStr = smsMessageStr.split(" ", 10);
             if (arrOfStr.length != 7) {
-                //Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
                 return;
             }
             if (!arrOfStr[6].equals("dblogisticare.")) {
-                // Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
-
                 return;
             }
 
             if (inst != null) {
 
-                inst.updateList(arrOfStr[0]);
+                inst.setEditTextCode(arrOfStr[0]);
             }
 
         }

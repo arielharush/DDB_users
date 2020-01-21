@@ -87,7 +87,7 @@ editText = findViewById(R.id.code);
 
 
         }
-        //mAuth.setLanguageCode("en");
+
 
 
 
@@ -131,7 +131,7 @@ editText = findViewById(R.id.code);
        }
 
 
-       void  updateList(String sms){
+    void setEditTextCode(String sms) {
 
         editText = findViewById(R.id.code);
         editText.setText(sms);
@@ -174,20 +174,13 @@ editText = findViewById(R.id.code);
     }
 
 
-    //the callback to detect the verification status
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         @Override
         public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
 
-            //Getting the code sent by SMS
             String code = phoneAuthCredential.getSmsCode();
-
-            //sometime the code is not detected automatically
-            //in this case the code will be null
-            //so user has to manually enter the code
             if (code != null) {
                 editText.setText(code);
-                //verifying the code
                 verifyVerificationCode(code);
             }
         }
@@ -200,27 +193,19 @@ editText = findViewById(R.id.code);
         @Override
         public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
             super.onCodeSent(s, forceResendingToken);
-
-            //storing the verification id that is sent to the user
             mVerificationId = s;
         }
     };
 
 
     private void verifyVerificationCode(String code) {
-        //creating the credential
-
-
         try{
             PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
-            //signing the user
             signInWithPhoneAuthCredential(credential);
 
         }catch (Exception e){
 
             Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
-
-
         }
 
     }
@@ -247,10 +232,8 @@ editText = findViewById(R.id.code);
                              @Override
                              public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                  if (dataSnapshot.getValue() == null) {
-                                     // The child doesn't exist
                                     // Toast.makeText(getApplicationContext(),mobile1 + " error",Toast.LENGTH_SHORT).show();
 
-//verification successful we will start the profile activity
                                      Intent intent = new Intent(loginTestCode.this, MainActivity.class);
                                      startActivity(intent);
                                      loginTestCode.this.finish();
@@ -266,13 +249,12 @@ editText = findViewById(R.id.code);
                              }
                          });
 
-                            //verification successful we will start the profile activity
                             //Intent intent = new Intent(loginTestCode.this, MainActivity.class);
                             //startActivity(intent);
                             //loginTestCode.this.finish();
 
                         } else {
-                            String message = "Somthing is wrong, we will fix it soon...";
+                            String message = "Error 09...";
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 message = "Invalid code entered...";
                             }
