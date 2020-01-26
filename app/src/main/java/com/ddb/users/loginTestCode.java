@@ -1,6 +1,8 @@
 package com.ddb.users;
 
 import android.content.Intent;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -29,7 +31,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class loginTestCode extends AppCompatActivity {
 
@@ -81,44 +87,16 @@ public class loginTestCode extends AppCompatActivity {
             }
 
         }else {
-
-            Toast.makeText(getApplicationContext(), mAuth.getCurrentUser().getPhoneNumber(),Toast.LENGTH_SHORT).show();
-
-
+            if (!UserData.getUserEnteredData(getApplicationContext())) {
+                setViewRegister();
+            }
+            Toast.makeText(getApplicationContext(), "1", Toast.LENGTH_SHORT).show();
         }
-
-
-
-
 
         findViewById(R.id.codecheck).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String code = editText.getText().toString().trim();
-                if (code.isEmpty() || code.length() < 6) {
-                    editText.setError("Enter valid code");
-                    editText.requestFocus();
-                    return;
-                }
-
-                if (mAuth.getCurrentUser() != null){
-                    return;
-                }
-
-                try {
-
-
-                    //verifying the code entered manually
-                    verifyVerificationCode(code);
-                    fieldsWaitingToFirebase();
-
-
-                }catch (Exception e){
-                    Toast.makeText(getApplicationContext(), e.toString(),Toast.LENGTH_SHORT).show();
-                    //EditText code = findViewById(R.id.code);
-                    editText.setText(e.toString());
-                    fieldsStopWaitingToFirebase();
-                }
+                buttonOnClickCodecheck();
 
             }
         });
@@ -126,18 +104,56 @@ public class loginTestCode extends AppCompatActivity {
     }
 
 
+    void buttonOnClickCodecheck() {
+
+        String code = editText.getText().toString().trim();
+        if (code.isEmpty() || code.length() < 6) {
+            editText.setError("Enter valid code");
+            editText.requestFocus();
+            return;
+        }
+
+        if (mAuth.getCurrentUser() != null) {
+
+            return;
+        }
+
+        try {
+
+
+            //verifying the code entered manually
+            verifyVerificationCode(code);
+            fieldsWaitingToFirebase();
+
+
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+            //EditText code = findViewById(R.id.code);
+            editText.setText(e.toString());
+            fieldsStopWaitingToFirebase();
+        }
+
+    }
     private void sendVerificationCode(String mobile) {
         if(mobile.length() == 10 && mobile.toCharArray()[0] == '0'){
             mobile = mobile.substring(1);
         }
 
+        try {
+            PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                    "+972" + mobile,
+                    60,
+                    TimeUnit.SECONDS,
+                    TaskExecutors.MAIN_THREAD,
+                    mCallbacks);
 
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                "+972" + mobile,
-                60,
-                TimeUnit.SECONDS,
-                TaskExecutors.MAIN_THREAD,
-                mCallbacks);
+            Toast.makeText(getApplicationContext(), "2", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+
+            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "3", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 
@@ -149,7 +165,15 @@ public class loginTestCode extends AppCompatActivity {
             if (code != null) {
                 editText.setText(code);
                 verifyVerificationCode(code);
+            } else {
+
+
+                mAuth.signInWithCredential(phoneAuthCredential);
+                signInWithPhoneAuthCredential(phoneAuthCredential);
+
             }
+
+
         }
 
         @Override
@@ -176,7 +200,7 @@ public class loginTestCode extends AppCompatActivity {
 
     }
 
-    private void addUserToDirebase() {
+    private void addUserToFirebase() {
         TextView firstNameTextView = findViewById(R.id.first_name);
         TextView lastNameTextView = findViewById(R.id.last_name);
         TextView phoneNumberTextView = findViewById(R.id.phone_number);
@@ -200,13 +224,48 @@ public class loginTestCode extends AppCompatActivity {
             emailTextView.setError("Enter valid Email");
             return;
         }
+        String regex = "^(.+)@(.+)$";
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(emailTextView.getText());
+        if (!matcher.matches()) {
+
+            emailTextView.setError("Enter valid Email");
+            return;
+        }
+
         mAuth = FirebaseAuth.getInstance();
         DatabaseReference rootRef = FirebaseDatabase.getInstance("https://dblogisticare.firebaseio.com/").getReference("users");
         rootRef = rootRef.child(mAuth.getCurrentUser().getPhoneNumber());
-        Address address = new Address(countryTextView.getText().toString(), cityTextView.getText().toString(), streetTextView.getText().toString(), numberTextView.getText().toString(), zipCodeTextView.getText().toString(), 0, 0);
+        Location location = getLocationFromAddress(countryTextView.getText().toString() + " " + cityTextView.getText().toString() + " " + streetTextView.getText().toString() + " " + numberTextView.getText().toString());
+        Address address = new Address(countryTextView.getText().toString(), cityTextView.getText().toString(), streetTextView.getText().toString(), numberTextView.getText().toString(), zipCodeTextView.getText().toString(), location.getLongitude(), location.getLatitude());
         User user = new User(mAuth.getCurrentUser().getPhoneNumber(), firstNameTextView.getText().toString(), lastNameTextView.getText().toString(), emailTextView.getText().toString(), address, User.stringToGender(genderSpinner.getSelectedItemId() + ""));
         rootRef.setValue(user);
+        UserData.setUserEnteredData(getApplicationContext(), true);
         goToMainActivity();
+    }
+
+    public Location getLocationFromAddress(String strAddress) {
+
+        Geocoder coder = new Geocoder(this);
+        List<android.location.Address> address;
+        Location p1 = null;
+        try {
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null) {
+                return null;
+            }
+            android.location.Address location = address.get(0);
+            location.getLatitude();
+            location.getLongitude();
+            p1 = new Location("a");
+            p1.setLatitude(location.getLatitude());
+            p1.setLongitude(location.getLongitude());
+            return p1;
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+        }
+        return new Location("a");
     }
 
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
@@ -229,25 +288,12 @@ public class loginTestCode extends AppCompatActivity {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     if (dataSnapshot.getValue() == null) {
-                                        findViewById(R.id.loginlayout).setVisibility(View.GONE);
-                                        findViewById(R.id.register).setVisibility(View.VISIBLE);
-                                        TextView phoneNumberTextView = findViewById(R.id.phone_number);
-                                        mAuth = FirebaseAuth.getInstance();
-                                        phoneNumberTextView.setText(mAuth.getCurrentUser().getPhoneNumber());
-                                        Spinner spinnerBreakable = (Spinner) findViewById(R.id.gender);
-                                        ArrayAdapter<CharSequence> adapter_breakable;
-                                        adapter_breakable = ArrayAdapter.createFromResource(loginTestCode.this, R.array.gender_list, android.R.layout.simple_spinner_item);
-                                        adapter_breakable.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                                        spinnerBreakable.setAdapter(adapter_breakable);
-                                        findViewById(R.id.buttonOk).setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                addUserToDirebase();
-                                            }
-                                        });
+                                        UserData.setUserEnteredData(getApplicationContext(), false);
+                                        setViewRegister();
 
 
                                     } else {
+                                        UserData.setUserEnteredData(getApplicationContext(), true);
                                         goToMainActivity();
                                     }
                                 }
@@ -279,9 +325,26 @@ public class loginTestCode extends AppCompatActivity {
                 });
     }
 
+    private void setViewRegister() {
+        findViewById(R.id.loginlayout).setVisibility(View.GONE);
+        findViewById(R.id.register).setVisibility(View.VISIBLE);
+        TextView phoneNumberTextView = findViewById(R.id.phone_number);
+        mAuth = FirebaseAuth.getInstance();
+        phoneNumberTextView.setText(mAuth.getCurrentUser().getPhoneNumber());
+        Spinner spinnerBreakable = (Spinner) findViewById(R.id.gender);
+        ArrayAdapter<CharSequence> adapter_breakable;
+        adapter_breakable = ArrayAdapter.createFromResource(loginTestCode.this, R.array.gender_list, android.R.layout.simple_spinner_item);
+        adapter_breakable.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerBreakable.setAdapter(adapter_breakable);
+        findViewById(R.id.buttonOk).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addUserToFirebase();
+            }
+        });
+    }
 
     //////////////////////////////////////////
-
 
     void setEditTextCode(String sms) {
 
@@ -317,6 +380,5 @@ public class loginTestCode extends AppCompatActivity {
         findViewById(R.id.codecheck).setClickable(true);
         findViewById(R.id.loading).setVisibility(View.GONE);
     }
-
 
 }

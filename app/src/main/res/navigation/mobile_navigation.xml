@@ -8,19 +8,19 @@
     <fragment
         android:id="@+id/nav_home"
         android:name="com.ddb.users.ui.home.HomeFragment"
-        android:label="@string/menu_home"
+        android:label="Take delivery"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_gallery"
         android:name="com.ddb.users.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
+        android:label="Packages for me"
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
         android:id="@+id/nav_slideshow"
         android:name="com.ddb.users.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
+        android:label="History"
         tools:layout="@layout/fragment_slideshow" />
 
     <fragment
@@ -32,7 +32,7 @@
     <fragment
         android:id="@+id/nav_share"
         android:name="com.ddb.users.ui.share.ShareFragment"
-        android:label="@string/menu_share"
+        android:label="My profile"
         tools:layout="@layout/fragment_share" />
 
     <fragment

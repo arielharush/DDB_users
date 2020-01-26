@@ -20,7 +20,8 @@
         app:layout_constraintTop_toTopOf="parent"
         android:hint="First Name"
         android:maxLength="18"
-        android:inputType="textCapSentences" />
+        android:inputType="textCapSentences"
+        android:enabled="false" />
 
     <EditText
         android:id="@+id/last_name"
@@ -37,7 +38,8 @@
         android:layout_width="0dp"
         app:layout_constraintWidth_percent="0.5"
         android:maxLength="18"
-        android:inputType="textCapSentences" />
+        android:inputType="textCapSentences"
+        android:enabled="false" />
 
 
     <EditText
@@ -52,8 +54,9 @@
         android:hint="Phone Number"
         android:layout_width="0dp"
         app:layout_constraintWidth_percent="0.5"
-        android:maxLength="10"
-        android:inputType="phone" />
+        android:maxLength="15"
+        android:inputType="phone"
+        android:enabled="false" />
 
     <EditText
         android:id="@+id/gender"
@@ -70,7 +73,11 @@
         android:layout_width="0dp"
         app:layout_constraintWidth_percent="0.5"
         android:maxLength="10"
-        android:inputType="text" />
+        android:inputType="text"
+        android:enabled="false"
+        android:textColor="@android:color/black"
+
+        />
 
 
     <EditText
@@ -86,7 +93,8 @@
         android:layout_width="0dp"
         app:layout_constraintWidth_percent="1"
         android:maxLength="30"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"
+        android:enabled="false" />
 
 
     <TextView
@@ -101,7 +109,8 @@
         app:layout_constraintTop_toBottomOf="@id/email"
         android:text="Physical address:"
         android:layout_width="0dp"
-        app:layout_constraintWidth_percent="1" />
+        app:layout_constraintWidth_percent="1"
+        android:enabled="false" />
 
     <EditText
         android:id="@+id/country"
@@ -116,7 +125,8 @@
         android:layout_width="0dp"
         app:layout_constraintWidth_percent="0.5"
         android:maxLength="30"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"
+        android:enabled="false" />
 
 
     <EditText
@@ -134,7 +144,8 @@
         android:layout_width="0dp"
         app:layout_constraintWidth_percent="0.5"
         android:maxLength="30"
-        android:inputType="textPostalAddress" />
+        android:inputType="textPostalAddress"
+        android:enabled="false" />
 
     <EditText
         android:id="@+id/street"
@@ -149,7 +160,8 @@
         android:layout_width="0dp"
         app:layout_constraintWidth_percent="0.5"
         android:maxLength="30"
-        android:inputType="textPostalAddress" />
+        android:inputType="textPostalAddress"
+        android:enabled="false" />
 
 
     <EditText
@@ -167,7 +179,8 @@
         android:layout_width="0dp"
         app:layout_constraintWidth_percent="0.5"
         android:maxLength="20"
-        android:inputType="number" />
+        android:inputType="number"
+        android:enabled="false" />
 
 
     <EditText
@@ -182,19 +195,9 @@
         android:layout_width="0dp"
         app:layout_constraintWidth_percent="0.5"
         android:maxLength="20"
-        android:inputType="number" />
+        android:inputType="number"
+        android:enabled="false" />
 
 
-    <Button
-        android:id="@+id/buttonOk"
-        android:layout_width="0dp"
-        app:layout_constraintWidth_percent="0.5"
-        android:layout_height="wrap_content"
-        android:text="Ok"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/zipCode"
-        android:layout_marginTop="60dp"
 
-        />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,7 +13,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.ddb.users.Entities.User;
 import com.ddb.users.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class ShareFragment extends Fragment {
 
@@ -34,8 +36,23 @@ public class ShareFragment extends Fragment {
         final TextView streetTextView = root.findViewById(R.id.street);
         final TextView numberTextView = root.findViewById(R.id.number);
         final TextView zipCodeTextView = root.findViewById(R.id.zipCode);
-        final Button okButton = root.findViewById(R.id.buttonOk);
 
+
+        shareViewModel.getUser().observe(this, new Observer<User>() {
+            @Override
+            public void onChanged(User user) {
+                firstNameTextView.setText(user.getFirst_name());
+                lastNameTextView.setText(user.getLast_name());
+                phoneNumberTextView.setText(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
+                emailTextView.setText(user.getMail_address());
+                countryTextView.setText(user.getAddress().getCountry());
+                cityTextView.setText(user.getAddress().getCity());
+                streetTextView.setText(user.getAddress().getStreet());
+                numberTextView.setText(user.getAddress().getNumber());
+                zipCodeTextView.setText(user.getAddress().getZipCode());
+
+            }
+        });
         shareViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {

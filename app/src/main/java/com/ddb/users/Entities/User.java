@@ -48,6 +48,7 @@ public class User {
         this.address = new Address();
         this.gender = Gender.MALE;
 
+
     }
 
     public void setPhone_number(String phone_number) {
@@ -77,6 +78,7 @@ public class User {
     public void setMail_address(String mail_address) {
         this.mail_address = mail_address;
     }
+
 
     public static Gender stringToGender(String s) {
 

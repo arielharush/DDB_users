@@ -20,21 +20,49 @@ public class Parcel {
     @NonNull
     String key;
 
-    //@TypeConverters(PackType.class)
-    // PackType packType;
+
+    PackType packType;
     boolean breakable;
 
-    //@TypeConverters(PackageWeight.class)
-    // PackageWeight packageWeight;
-    // Location location;
+    PackageWeight packageWeight;
+    //Location location;
     double longitude;
     double latitude;
     String receiver_phone;
     //  Date dateSend;
     //@TypeConverters(PackStatus.class)
-    // PackStatus packStatus;
+    PackStatus packStatus;
     String deliveryman_phone;
+    double longitudeReceiver;
+
+    public double getLongitudeReceiver() {
+        return longitudeReceiver;
+    }
+
+    public void setLongitudeReceiver(double longitudeReceiver) {
+        this.longitudeReceiver = longitudeReceiver;
+    }
+
+    public double getLatitudeReceiver() {
+        return latitudeReceiver;
+    }
+
+    public void setLatitudeReceiver(double latitudeReceiver) {
+        this.latitudeReceiver = latitudeReceiver;
+    }
+
+    double latitudeReceiver;
+
+    public float getDistance() {
+        return distance;
+    }
+
+    public void setDistance(float distance) {
+        this.distance = distance;
+    }
+
     // Date dateReceived;
+    float distance;
 
     public double getLongitude() {
         return longitude;
@@ -129,41 +157,45 @@ public class Parcel {
     public Parcel(String key, PackType packType, boolean breakable, PackageWeight packageWeight,
                   Location location, String receiver_phone, Date dateSend, PackStatus packStatus) {
         this.key = key;
-        // this.packType = packType;
+        this.packType = packType;
         this.breakable = breakable;
-        // this.packageWeight = packageWeight;
+        this.packageWeight = packageWeight;
         // this.location = location;
         this.receiver_phone = receiver_phone;
-        // this.dateSend = new Date(dateSend.getTime());
-        // this.packStatus = packStatus;
-        this.deliveryman_phone = null;
-        // this.dateReceived = null ;
+        //this.dateSend = new Date(dateSend.getTime());
+        this.packStatus = packStatus;
+        this.deliveryman_phone = "";
+        // this.dateReceived = null;
+        this.distance = 0;
     }
 
     public Parcel(Parcel parcel) {
-        this.key = parcel.key;
-        //  this.packType = parcel.packType;
+        this.packType = parcel.packType;
         this.breakable = parcel.breakable;
-        //this.packageWeight = parcel.packageWeight;
-        // this.location =  new Location(parcel.location);
+        this.packageWeight = parcel.packageWeight;
+        this.longitude = parcel.longitude;
+        this.latitude = parcel.latitude;
         this.receiver_phone = parcel.receiver_phone;
+        this.packStatus = parcel.packStatus;
         this.deliveryman_phone = parcel.deliveryman_phone;
-        // this.dateSend = new Date(parcel.dateSend.getTime());
-        //  this.dateReceived = new Date(parcel.dateReceived.getTime());
-        //  this.packStatus =  parcel.packStatus;
+        this.distance = parcel.distance;
+        this.longitudeReceiver = parcel.longitudeReceiver;
+        this.latitudeReceiver = parcel.latitudeReceiver;
+        this.key = parcel.key;
     }
 
     public Parcel() {
         this.key = null;
-        //  this.packType = PackType.ENVELOPE;
+        this.packType = PackType.ENVELOPE;
         this.breakable = false;
-        //  this.packageWeight = PackageWeight.UP_TO_500_GR;
-        //  this.location = null;
+        this.packageWeight = PackageWeight.UP_TO_500_GR;
+        // this.location = null;
         this.receiver_phone = null;
         this.deliveryman_phone = null;
         //  this.dateSend = new Date(Calendar.getInstance().getTime().getTime());
         //this.dateReceived = null;
-        //  this.packStatus = PackStatus.SENT;
+        this.packStatus = PackStatus.SENT;
+        this.distance = 0;
     }
 
     public Parcel(Long lo) {
@@ -178,13 +210,13 @@ public class Parcel {
         this.key = key;
     }
 
-//    public PackType getPackType() {
-//        return packType;
-//    }
+    public PackType getPackType() {
+        return packType;
+    }
 
-//    public void setPackType(PackType packType) {
-//        this.packType = packType;
-//    }
+    public void setPackType(PackType packType) {
+        this.packType = packType;
+    }
 
     public boolean isBreakable() {
         return breakable;
@@ -194,14 +226,14 @@ public class Parcel {
         this.breakable = breakable;
     }
 
-//    public PackageWeight getPackageWeight() {
-//        return packageWeight;
-//    }
-//
-//    public void setPackageWeight(PackageWeight packageWeight) {
-//        this.packageWeight = packageWeight;
-//    }
-//
+    public PackageWeight getPackageWeight() {
+        return packageWeight;
+    }
+
+    public void setPackageWeight(PackageWeight packageWeight) {
+        this.packageWeight = packageWeight;
+    }
+
 //    public Location getLocation() {
 //        return location;
 //    }
@@ -241,28 +273,28 @@ public class Parcel {
 //    public void setDateReceived(Date dateReceived) {
 //        this.dateReceived = dateReceived;
 //    }
-//
-//    public PackStatus getPackStatus() {
-//        return packStatus;
-//    }
-//
-//    public void setPackStatus(PackStatus packStatus) {
-//        this.packStatus = packStatus;
-//    }
+
+    public PackStatus getPackStatus() {
+        return packStatus;
+    }
+
+    public void setPackStatus(PackStatus packStatus) {
+        this.packStatus = packStatus;
+    }
 
     @Override
     public String toString() {
         return "Parcel{" +
                 "key=" + key +
-                //  ", packType=" + packType +
+                ", packType=" + packType +
                 ", breakable=" + breakable +
-                //   ", packageWeight=" + packageWeight +
+                ", packageWeight=" + packageWeight +
                 //  ", location=" + location +
                 ", receiver_phone='" + receiver_phone + '\'' +
                 ", deliveryman_phone='" + deliveryman_phone + '\'' +
                 //  ", dateSend=" + dateSend +
                 // ", dateReceived=" + dateReceived +
-                // ", packStatus=" + packStatus +
+                ", packStatus=" + packStatus +
                 '}';
     }
 }
