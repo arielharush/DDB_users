@@ -117,33 +117,35 @@ public class Firebase_DBManager {
             ParcelRefChildEventListener = new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                    Parcel Parcel = dataSnapshot.getValue(Parcel.class);
-//                    String id = dataSnapshot.getKey();
-//                    Parcel.setKey((id));
-//                    if ((Parcel.getPackStatus() == PackStatus.SENT || Parcel.getPackStatus() == PackStatus.OFFER_FOR_SHIPPING) && Parcel.getDeliveryman_phone().equals("")) {
-//
-//                        Location a = new Location("a");
-//                        a.setLongitude(Parcel.getLongitudeReceiver());
-//                        a.setLatitude(Parcel.getLatitudeReceiver());
-//                        Location b = new Location("b");
-//                        double long_ = UserData.getUserData(context).getAddress().getLongitude();
-//                        b.setLongitude(long_);
-//                        b.setLatitude(UserData.getUserData(context).getAddress().getLatitude());
-//                        float dis = a.distanceTo(b);
-//                        Parcel parcel1 = new Parcel(Parcel);
-//                        parcel1.setDistance(dis);
-//                        repository.insert(parcel1);
-//
-//                    } else {
-//                        repository.insert(Parcel);
-//                    }
-//
-//
+                    Parcel Parcel = dataSnapshot.getValue(Parcel.class);
+                    String id = dataSnapshot.getKey();
+                    Parcel.setKey((id));
+                    if ((Parcel.getPackStatus() == PackStatus.SENT || Parcel.getPackStatus() == PackStatus.OFFER_FOR_SHIPPING) && Parcel.getDeliveryman_phone().equals("")) {
+
+                        Location a = new Location("a");
+                        a.setLongitude(Parcel.getLongitudeReceiver());
+                        a.setLatitude(Parcel.getLatitudeReceiver());
+                        Location b = new Location("b");
+                        double long_ = UserData.getUserData(context).getAddress().getLongitude();
+                        b.setLongitude(long_);
+                        b.setLatitude(UserData.getUserData(context).getAddress().getLatitude());
+                        float dis = a.distanceTo(b);
+                        Parcel parcel1 = new Parcel(Parcel);
+                        parcel1.setDistance(dis);
+                        repository.insert(parcel1);
+
+
+                    } else {
+                        repository.insert(Parcel);
+                    }
+
+
 
                     //TODO
                     /// write if for tet if the parcel in status of sent or offer for shiping
 
                     //  ParcelList.add(Parcel);
+                    sendOnChannel1();
 
                 }
 
@@ -152,8 +154,10 @@ public class Firebase_DBManager {
                     Parcel Parcel = dataSnapshot.getValue(Parcel.class);
                     String id = (dataSnapshot.getKey());
                     Parcel.setKey(id);
-                    repository.insert(Parcel);
-
+                    Parcel parcelT = repository.getParcelById(id).getValue();
+                    if (Parcel.getLastUpdateTime() > parcelT.getLastUpdateTime()) {
+                        repository.insert(Parcel);
+                    }
 
                 }
 

@@ -10,6 +10,7 @@ import androidx.room.TypeConverters;
 
 import com.ddb.users.Entities.Enums.*;
 
+import java.sql.Time;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -22,6 +23,7 @@ public class Parcel {
     PackType packType;
     boolean breakable;
     PackageWeight packageWeight;
+    long lastUpdateTime;
     //Location location;
     double longitude;
     double latitude;
@@ -73,6 +75,15 @@ public class Parcel {
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
+
+    public long getLastUpdateTime() {
+        return lastUpdateTime;
+    }
+
+    public void setLastUpdateTime(long lastUpdateTime) {
+        this.lastUpdateTime = lastUpdateTime;
+    }
+
 
     public static String packageWeightTosString(PackageWeight packageWeight) {
         String temp = "";
@@ -160,6 +171,7 @@ public class Parcel {
         this.deliveryman_phone = "";
         // this.dateReceived = null;
         this.distance = 0;
+        this.lastUpdateTime = (new Date()).getTime(); // unix time
     }
 
     public Parcel(Parcel parcel) {
@@ -175,6 +187,7 @@ public class Parcel {
         this.longitudeReceiver = parcel.longitudeReceiver;
         this.latitudeReceiver = parcel.latitudeReceiver;
         this.key = parcel.key;
+        this.lastUpdateTime = parcel.lastUpdateTime;
     }
 
     public Parcel() {
@@ -189,6 +202,7 @@ public class Parcel {
         //this.dateReceived = null;
         this.packStatus = PackStatus.SENT;
         this.distance = 0;
+        lastUpdateTime = (new Date()).getTime();
     }
 
     public Parcel(Long lo) {

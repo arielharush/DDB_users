@@ -1,24 +1,13 @@
 package com.ddb.users;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.content.Context;
-import android.graphics.Color;
-import android.os.Build;
 
-import androidx.core.app.NotificationCompat;
+import android.content.Intent;
+
 import androidx.lifecycle.LifecycleService;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 
-import com.ddb.users.Entities.Parcel;
-import com.ddb.users.Firebase_DBManager;
 import com.ddb.users.Model.ParcelRepository;
-import com.ddb.users.R;
-import com.ddb.users.UserData;
-
-import java.util.List;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class ServiceUpdate extends LifecycleService {
@@ -27,13 +16,29 @@ public class ServiceUpdate extends LifecycleService {
     @Override
     public void onCreate() {
         super.onCreate();
-        //// Firebase_DBManager.context = getApplicationContext();
-        //  Firebase_DBManager.repository = new ParcelRepository(getApplication());
-        //  Firebase_DBManager.notifyToParcelList();
+        Firebase_DBManager.context = getApplicationContext();
+        Firebase_DBManager.repository = new ParcelRepository(getApplication());
+        Firebase_DBManager.notifyToParcelList();
+
 
     }
 
 
+    @Override
+    public void onStart(Intent intent, int startId) {
+        super.onStart(intent, startId);
+
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        DatabaseReference rootRef = FirebaseDatabase.getInstance("https://dblogisticare.firebaseio.com/").getReference("users");
+        rootRef = rootRef.child("Errors");
+        rootRef.setValue("stopping");
+
+    }
 }
 
 

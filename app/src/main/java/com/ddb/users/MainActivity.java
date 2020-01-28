@@ -20,6 +20,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.ddb.users.Model.ParcelRepository;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -31,6 +32,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -138,15 +140,23 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void logOut(MenuItem item) {
-        mAuth.signOut();
-        MainActivity.this.finish();
+        // mAuth.signOut();
+        // MainActivity.this.finish();
 
+
+        ParcelRepository repository = new ParcelRepository(getApplication());
+        if (repository.getParcelById("etjrwke5876545676ytemu").getValue() == null) {
+            Toast.makeText(getApplicationContext(), "true", Toast.LENGTH_SHORT).show();
+        } else {
+
+            Toast.makeText(getApplicationContext(), "false", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Firebase_DBManager.stopNotifyToParcelList();
+        //Firebase_DBManager.stopNotifyToParcelList();
     }
 }
