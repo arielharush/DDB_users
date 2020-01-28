@@ -26,7 +26,6 @@ public class MyService extends FirebaseMessagingService {
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
 
-
         }
     }
 }

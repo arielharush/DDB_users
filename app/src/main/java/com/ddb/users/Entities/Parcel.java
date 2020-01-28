@@ -19,11 +19,8 @@ public class Parcel {
     @PrimaryKey(autoGenerate = false)
     @NonNull
     String key;
-
-
     PackType packType;
     boolean breakable;
-
     PackageWeight packageWeight;
     //Location location;
     double longitude;
@@ -34,7 +31,9 @@ public class Parcel {
     PackStatus packStatus;
     String deliveryman_phone;
     double longitudeReceiver;
-
+    double latitudeReceiver;
+    // Date dateReceived;
+    float distance;
     public double getLongitudeReceiver() {
         return longitudeReceiver;
     }
@@ -51,8 +50,6 @@ public class Parcel {
         this.latitudeReceiver = latitudeReceiver;
     }
 
-    double latitudeReceiver;
-
     public float getDistance() {
         return distance;
     }
@@ -60,9 +57,6 @@ public class Parcel {
     public void setDistance(float distance) {
         this.distance = distance;
     }
-
-    // Date dateReceived;
-    float distance;
 
     public double getLongitude() {
         return longitude;
@@ -79,7 +73,6 @@ public class Parcel {
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
-
 
     public static String packageWeightTosString(PackageWeight packageWeight) {
         String temp = "";

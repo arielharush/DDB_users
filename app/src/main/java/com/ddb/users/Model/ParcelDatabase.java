@@ -82,12 +82,12 @@ public abstract class ParcelDatabase extends RoomDatabase {
 //
 //
 //
-//            Parcel parcel6 = new Parcel("7", PackType.BIG_PACK, true, PackageWeight.UP_TO_1KG, new Location("a"), "1234", new Date(), PackStatus.SENT);
-//            Parcel parcel7 = new Parcel("8", PackType.BIG_PACK, true, PackageWeight.UP_TO_1KG, new Location("a"), "+972559959829", new Date(), PackStatus.SENT);
-//            Parcel parcel8 = new Parcel("9", PackType.BIG_PACK, true, PackageWeight.UP_TO_1KG, new Location("a"), "+972559959829", new Date(), PackStatus.OFFER_FOR_SHIPPING);
-//            Parcel parcel9 = new Parcel("10", PackType.BIG_PACK, true, PackageWeight.UP_TO_1KG, new Location("a"), "+972559959829", new Date(), PackStatus.IN_THE_WHY);
-//            Parcel parcel10 = new Parcel("11", PackType.BIG_PACK, true, PackageWeight.UP_TO_1KG, new Location("a"), "+972559959829", new Date(), PackStatus.RECEIVED);
-//            Parcel parcel11= new Parcel("12", PackType.BIG_PACK, true, PackageWeight.UP_TO_1KG, new Location("a"), "5354", new Date(), PackStatus.OFFER_FOR_SHIPPING);
+//            Parcel parcel6 = new Parcel("7", PackType.BIG_PACK, true, PackageWeight.UP_TO_1KG, new Location("a"), "", new Date(), PackStatus.SENT);
+//            Parcel parcel7 = new Parcel("8", PackType.BIG_PACK, true, PackageWeight.UP_TO_1KG, new Location("a"), "+", new Date(), PackStatus.SENT);
+//            Parcel parcel8 = new Parcel("9", PackType.BIG_PACK, true, PackageWeight.UP_TO_1KG, new Location("a"), "+", new Date(), PackStatus.OFFER_FOR_SHIPPING);
+//            Parcel parcel9 = new Parcel("10", PackType.BIG_PACK, true, PackageWeight.UP_TO_1KG, new Location("a"), "+", new Date(), PackStatus.IN_THE_WHY);
+//            Parcel parcel10 = new Parcel("11", PackType.BIG_PACK, true, PackageWeight.UP_TO_1KG, new Location("a"), "", new Date(), PackStatus.RECEIVED);
+//            Parcel parcel11= new Parcel("12", PackType.BIG_PACK, true, PackageWeight.UP_TO_1KG, new Location("a"), "", new Date(), PackStatus.OFFER_FOR_SHIPPING);
 //            parcelDao.insert(parcel6);
 //            parcelDao.insert(parcel7);
 //            parcelDao.insert(parcel8);

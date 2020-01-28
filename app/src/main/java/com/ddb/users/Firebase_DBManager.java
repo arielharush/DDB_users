@@ -2,11 +2,15 @@ package com.ddb.users;
 
 
 import android.app.Application;
+import android.app.Notification;
 import android.content.Context;
 import android.location.Location;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.ddb.users.Entities.Enums.PackStatus;
 import com.ddb.users.Entities.Parcel;
@@ -24,6 +28,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.ddb.users.App.CHANNEL_1_ID;
 
 public class Firebase_DBManager {
 
@@ -43,19 +49,11 @@ public class Firebase_DBManager {
     }
 
     static DatabaseReference ParcelsRef;
-    //static List<Parcel> ParcelList;
 
     public static Context context;
     public static ParcelRepository repository;
 
-    static {
-
-
-        //ParcelsRef.orderByChild("dateSend/day");
-
-
-    }
-
+    private static NotificationManagerCompat notificationManager;
 
     public static void addParcel(final Parcel Parcel, final Action<Long> action) {
 //
@@ -112,33 +110,35 @@ public class Firebase_DBManager {
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://dblogisticare.firebaseio.com/");
         ParcelsRef = database.getReference("parcels");
         ///ParcelsRef.setValue("ii");
+        notificationManager = NotificationManagerCompat.from(context);
         if (true) {
 
 
             ParcelRefChildEventListener = new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    Parcel Parcel = dataSnapshot.getValue(Parcel.class);
-                    String id = dataSnapshot.getKey();
-                    Parcel.setKey((id));
-                    if ((Parcel.getPackStatus() == PackStatus.SENT || Parcel.getPackStatus() == PackStatus.OFFER_FOR_SHIPPING) && Parcel.getDeliveryman_phone().equals("")) {
-
-
-                        Location a = new Location("a");
-                        a.setLongitude(Parcel.getLongitudeReceiver());
-                        a.setLatitude(Parcel.getLatitudeReceiver());
-                        Location b = new Location("b");
-                        double long_ = UserData.getUserData(context).getAddress().getLongitude();
-                        b.setLongitude(long_);
-                        b.setLatitude(UserData.getUserData(context).getAddress().getLatitude());
-                        float dis = a.distanceTo(b);
-                        Parcel parcel1 = new Parcel(Parcel);
-                        parcel1.setDistance(dis);
-                        repository.insert(parcel1);
-                    } else {
-                        repository.insert(Parcel);
-                    }
-
+//                    Parcel Parcel = dataSnapshot.getValue(Parcel.class);
+//                    String id = dataSnapshot.getKey();
+//                    Parcel.setKey((id));
+//                    if ((Parcel.getPackStatus() == PackStatus.SENT || Parcel.getPackStatus() == PackStatus.OFFER_FOR_SHIPPING) && Parcel.getDeliveryman_phone().equals("")) {
+//
+//                        Location a = new Location("a");
+//                        a.setLongitude(Parcel.getLongitudeReceiver());
+//                        a.setLatitude(Parcel.getLatitudeReceiver());
+//                        Location b = new Location("b");
+//                        double long_ = UserData.getUserData(context).getAddress().getLongitude();
+//                        b.setLongitude(long_);
+//                        b.setLatitude(UserData.getUserData(context).getAddress().getLatitude());
+//                        float dis = a.distanceTo(b);
+//                        Parcel parcel1 = new Parcel(Parcel);
+//                        parcel1.setDistance(dis);
+//                        repository.insert(parcel1);
+//
+//                    } else {
+//                        repository.insert(Parcel);
+//                    }
+//
+//
 
                     //TODO
                     /// write if for tet if the parcel in status of sent or offer for shiping
@@ -186,5 +186,23 @@ public class Firebase_DBManager {
             ParcelRefChildEventListener = null;
         }
     }
+
+
+    public static void sendOnChannel1() {
+        String title = "fg";
+        String message = "Fg";
+
+        Notification notification = new NotificationCompat.Builder(context, CHANNEL_1_ID)
+                .setSmallIcon(R.drawable.ic_location_on_black_24dp)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .build();
+
+        notificationManager.notify(1, notification);
+    }
+
+
 
 }

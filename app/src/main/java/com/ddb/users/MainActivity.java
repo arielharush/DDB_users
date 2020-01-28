@@ -1,10 +1,7 @@
 package com.ddb.users;
 
 import android.Manifest;
-import android.app.Application;
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
-import android.content.ComponentName;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,14 +10,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 
-import com.ddb.users.Entities.Enums.PackStatus;
-import com.ddb.users.Entities.Enums.PackType;
-import com.ddb.users.Entities.Enums.PackageWeight;
-import com.ddb.users.Entities.Parcel;
-import com.ddb.users.Model.ParcelDao;
-import com.ddb.users.Model.ParcelRepository;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import android.util.Log;
 import android.view.MenuItem;
@@ -110,11 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
             setContentView(R.layout.activity_main);
-            Firebase_DBManager.context = getApplicationContext();
             UserData.getuserDataFromFirebase(this, getApplicationContext());
-            Firebase_DBManager.repository = new ParcelRepository(getApplication());
-            Firebase_DBManager.notifyToParcelList();
-
 
         }
 

@@ -1,5 +1,6 @@
 package com.ddb.users;
 
+import android.app.Notification;
 import android.content.Intent;
 import android.location.Geocoder;
 import android.location.Location;
@@ -13,6 +14,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.ddb.users.Entities.Address;
 import com.ddb.users.Entities.User;
@@ -37,7 +40,10 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.ddb.users.App.CHANNEL_1_ID;
+
 public class loginTestCode extends AppCompatActivity {
+
 
     private static loginTestCode inst;
     private String mVerificationId;
@@ -78,7 +84,8 @@ public class loginTestCode extends AppCompatActivity {
                 String t = getIntent().getStringExtra("number");
                 sendVerificationCode(t);
                 phoneNumber = t;
-                //Toast.makeText(getApplicationContext(), t,Toast.LENGTH_SHORT).show();
+                //mVerificationId = t;
+                Toast.makeText(getApplicationContext(), t, Toast.LENGTH_SHORT).show();
 
             }catch (Exception e){
                 Toast.makeText(getApplicationContext(), e.toString(),Toast.LENGTH_SHORT).show();
@@ -106,7 +113,7 @@ public class loginTestCode extends AppCompatActivity {
 
     void buttonOnClickCodecheck() {
 
-        String code = editText.getText().toString().trim();
+        String code = editText.getText().toString();
         if (code.isEmpty() || code.length() < 6) {
             editText.setError("Enter valid code");
             editText.requestFocus();
@@ -165,6 +172,7 @@ public class loginTestCode extends AppCompatActivity {
             if (code != null) {
                 editText.setText(code);
                 verifyVerificationCode(code);
+                //Toast.makeText(getApplicationContext(),code + "" ,Toast.LENGTH_SHORT).show();
             } else {
 
 
@@ -380,5 +388,6 @@ public class loginTestCode extends AppCompatActivity {
         findViewById(R.id.codecheck).setClickable(true);
         findViewById(R.id.loading).setVisibility(View.GONE);
     }
+
 
 }
