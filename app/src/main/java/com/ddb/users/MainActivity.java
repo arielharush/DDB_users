@@ -5,17 +5,14 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 
 
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
@@ -25,8 +22,6 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -36,9 +31,6 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
-
-import java.util.Date;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -76,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
                     } else {
 
-                        Intent intent = new Intent(MainActivity.this, loginTestCode.class);
+                        Intent intent = new Intent(MainActivity.this, LoginTestCodeActivity.class);
                         intent.putExtra("number", "" + phoneNumberEditText.getText());
                         startActivity(intent);
                         MainActivity.this.finish();
@@ -90,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
 
             if (!UserData.getUserEnteredData(getApplicationContext())) {
-                Intent intent = new Intent(MainActivity.this, loginTestCode.class);
+                Intent intent = new Intent(MainActivity.this, LoginTestCodeActivity.class);
                 intent.putExtra("number", "");
                 startActivity(intent);
                 MainActivity.this.finish();

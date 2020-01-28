@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
-import android.widget.Toast;
 
 public class SmsBroadcastReceiver extends BroadcastReceiver {
 
@@ -24,7 +23,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
 
                 smsMessageStr = smsBody;
             }
-            loginTestCode inst = loginTestCode.instance();
+            LoginTestCodeActivity inst = LoginTestCodeActivity.instance();
             String[] arrOfStr = smsMessageStr.split(" ", 10);
             if (arrOfStr.length != 7) {
                 return;

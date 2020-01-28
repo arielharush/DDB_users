@@ -1,6 +1,5 @@
 package com.ddb.users;
 
-import android.app.Notification;
 import android.content.Intent;
 import android.location.Geocoder;
 import android.location.Location;
@@ -14,8 +13,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
 import com.ddb.users.Entities.Address;
 import com.ddb.users.Entities.User;
@@ -34,18 +31,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.ddb.users.App.CHANNEL_1_ID;
-
-public class loginTestCode extends AppCompatActivity {
+public class LoginTestCodeActivity extends AppCompatActivity {
 
 
-    private static loginTestCode inst;
+    private static LoginTestCodeActivity inst;
     private String mVerificationId;
     public  String phoneNumber;
     private FirebaseAuth mAuth;
@@ -54,7 +48,7 @@ public class loginTestCode extends AppCompatActivity {
 
     }
 
-    public static loginTestCode instance() {
+    public static LoginTestCodeActivity instance() {
         return inst;
     }
 
@@ -186,7 +180,7 @@ public class loginTestCode extends AppCompatActivity {
 
         @Override
         public void onVerificationFailed(FirebaseException e) {
-            Toast.makeText(loginTestCode.this, e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(LoginTestCodeActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
 
         @Override
@@ -278,7 +272,7 @@ public class loginTestCode extends AppCompatActivity {
 
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(loginTestCode.this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(LoginTestCodeActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
@@ -312,9 +306,9 @@ public class loginTestCode extends AppCompatActivity {
                                 }
                             });
 
-                            //Intent intent = new Intent(loginTestCode.this, MainActivity.class);
+                            //Intent intent = new Intent(LoginTestCodeActivity.this, MainActivity.class);
                             //startActivity(intent);
-                            //loginTestCode.this.finish();
+                            //LoginTestCodeActivity.this.finish();
 
                         } else {
                             String message = "Error 09...";
@@ -341,7 +335,7 @@ public class loginTestCode extends AppCompatActivity {
         phoneNumberTextView.setText(mAuth.getCurrentUser().getPhoneNumber());
         Spinner spinnerBreakable = (Spinner) findViewById(R.id.gender);
         ArrayAdapter<CharSequence> adapter_breakable;
-        adapter_breakable = ArrayAdapter.createFromResource(loginTestCode.this, R.array.gender_list, android.R.layout.simple_spinner_item);
+        adapter_breakable = ArrayAdapter.createFromResource(LoginTestCodeActivity.this, R.array.gender_list, android.R.layout.simple_spinner_item);
         adapter_breakable.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerBreakable.setAdapter(adapter_breakable);
         findViewById(R.id.buttonOk).setOnClickListener(new View.OnClickListener() {
@@ -371,9 +365,9 @@ public class loginTestCode extends AppCompatActivity {
 
     void goToMainActivity() {
 
-        Intent intent = new Intent(loginTestCode.this, MainActivity.class);
+        Intent intent = new Intent(LoginTestCodeActivity.this, MainActivity.class);
         startActivity(intent);
-        loginTestCode.this.finish();
+        LoginTestCodeActivity.this.finish();
     }
 
     void fieldsWaitingToFirebase() {

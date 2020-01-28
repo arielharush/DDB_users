@@ -32,7 +32,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".loginTestCode"
+            android:name=".LoginTestCodeActivity"
             android:label="DDB" />
 
         <receiver
