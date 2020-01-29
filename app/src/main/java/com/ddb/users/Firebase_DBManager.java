@@ -7,6 +7,7 @@ import android.content.Context;
 import android.location.Location;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -120,24 +121,34 @@ public class Firebase_DBManager {
                     Parcel Parcel = dataSnapshot.getValue(Parcel.class);
                     String id = dataSnapshot.getKey();
                     Parcel.setKey((id));
-                    if ((Parcel.getPackStatus() == PackStatus.SENT || Parcel.getPackStatus() == PackStatus.OFFER_FOR_SHIPPING) && Parcel.getDeliveryman_phone().equals("")) {
 
-                        Location a = new Location("a");
-                        a.setLongitude(Parcel.getLongitudeReceiver());
-                        a.setLatitude(Parcel.getLatitudeReceiver());
-                        Location b = new Location("b");
-                        double long_ = UserData.getUserData(context).getAddress().getLongitude();
-                        b.setLongitude(long_);
-                        b.setLatitude(UserData.getUserData(context).getAddress().getLatitude());
-                        float dis = a.distanceTo(b);
-                        Parcel parcel1 = new Parcel(Parcel);
-                        parcel1.setDistance(dis);
-                        repository.insert(parcel1);
 
+                    if (repository.getParcelById(id).getValue() == null || (repository.getParcelById(id).getValue().getLastUpdateTime() <= Parcel.getLastUpdateTime())) {
+
+
+                        if ((Parcel.getPackStatus() == PackStatus.SENT || Parcel.getPackStatus() == PackStatus.OFFER_FOR_SHIPPING) && Parcel.getDeliveryman_phone().equals("")) {
+                            Location a = new Location("a");
+                            a.setLongitude(Parcel.getLongitudeReceiver());
+                            a.setLatitude(Parcel.getLatitudeReceiver());
+                            Location b = new Location("b");
+                            double long_ = UserData.getUserData(context).getAddress().getLongitude();
+                            b.setLongitude(long_);
+                            b.setLatitude(UserData.getUserData(context).getAddress().getLatitude());
+                            float dis = a.distanceTo(b);
+                            Parcel parcel1 = new Parcel(Parcel);
+                            parcel1.setDistance(dis);
+                            repository.insert(parcel1);
+
+
+                        } else {
+                            repository.insert(Parcel);
+                        }
 
                     } else {
-                        repository.insert(Parcel);
+
+
                     }
+
 
 
 
