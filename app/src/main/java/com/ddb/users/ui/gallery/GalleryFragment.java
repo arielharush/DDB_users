@@ -51,6 +51,8 @@ public class GalleryFragment extends Fragment {
                             parcels = parcels_S;
                             parcelsRecycleView.setAdapter(new forMeRecycleViewAdapter(GalleryFragment.this.getContext(), parcels));
                         } else {
+                            parcels.clear();
+                            parcels.addAll(parcels_S);
                             parcelsRecycleView.getAdapter().notifyDataSetChanged();
                         }
 

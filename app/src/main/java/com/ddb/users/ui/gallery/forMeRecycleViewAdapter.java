@@ -65,6 +65,9 @@ public class forMeRecycleViewAdapter extends RecyclerView.Adapter<forMeRecycleVi
         holder.textViewHour.setText(hour);
         holder.textViewParcelType.setText(Parcel.PackTypeTosString(parcel.getPackType()));
         holder.textViewWeight.setText(Parcel.packageWeightTosString(parcel.getPackageWeight()));
+        if (parcel.getPackStatus() != PackStatus.IN_THE_WHY) {
+            holder.imageButton.setVisibility(View.INVISIBLE);
+        }
         holder.imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
