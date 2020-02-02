@@ -140,17 +140,17 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void logOut(MenuItem item) {
-        // mAuth.signOut();
-        // MainActivity.this.finish();
+        mAuth.signOut();
+        MainActivity.this.finish();
 
 
-        ParcelRepository repository = new ParcelRepository(getApplication());
-        if (repository.getParcelById("etjrwke5876545676ytemu").getValue() == null) {
-            Toast.makeText(getApplicationContext(), "true", Toast.LENGTH_SHORT).show();
-        } else {
-
-            Toast.makeText(getApplicationContext(), "false", Toast.LENGTH_SHORT).show();
-        }
+//        ParcelRepository repository = new ParcelRepository(getApplication());
+//        if (repository.getParcelById("etjrwke5876545676ytemu").getValue() == null) {
+//            Toast.makeText(getApplicationContext(), "true", Toast.LENGTH_SHORT).show();
+//        } else {
+//
+//            Toast.makeText(getApplicationContext(), "false", Toast.LENGTH_SHORT).show();
+//        }
     }
 
 

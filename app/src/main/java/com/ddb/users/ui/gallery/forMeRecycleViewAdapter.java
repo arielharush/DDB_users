@@ -8,14 +8,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ddb.users.Entities.Enums.PackStatus;
 import com.ddb.users.Entities.Parcel;
 import com.ddb.users.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -32,7 +40,7 @@ public class forMeRecycleViewAdapter extends RecyclerView.Adapter<forMeRecycleVi
 
     @Override
     public ParcelsTDViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(baseContext.getApplicationContext()).inflate(R.layout.parcel_item,
+        View v = LayoutInflater.from(baseContext.getApplicationContext()).inflate(R.layout.parcel_for_me_item,
                 parent,
                 false);
 
@@ -48,8 +56,22 @@ public class forMeRecycleViewAdapter extends RecyclerView.Adapter<forMeRecycleVi
     @Override
     public void onBindViewHolder(ParcelsTDViewHolder holder, int position) {
         long time = System.currentTimeMillis();
-        Parcel parcel = parcels.get(position);
-        holder.textViewHourReceived.setText(parcel.getKey());
+        final Parcel parcel = parcels.get(position);
+        //holder.textViewHourReceived.setText(parcel.getKey());
+        Calendar calendar = Calendar.getInstance();
+        String date = helperDateAndHour(calendar.get(calendar.DAY_OF_MONTH)) + "/" + helperDateAndHour(calendar.get(Calendar.MONTH) + 1) + "/" + calendar.get(Calendar.YEAR);
+        String hour = helperDateAndHour(calendar.get(Calendar.HOUR)) + ":" + helperDateAndHour(calendar.get(Calendar.MINUTE));
+        holder.textViewDate.setText(date);
+        holder.textViewHour.setText(hour);
+        holder.textViewParcelType.setText(Parcel.PackTypeTosString(parcel.getPackType()));
+        holder.textViewWeight.setText(Parcel.packageWeightTosString(parcel.getPackageWeight()));
+        holder.imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                IrevicedParcel(new Parcel(parcel));
+            }
+        });
     }
 
     @Override
@@ -60,12 +82,21 @@ public class forMeRecycleViewAdapter extends RecyclerView.Adapter<forMeRecycleVi
     class ParcelsTDViewHolder extends RecyclerView.ViewHolder {
 
 
-        TextView textViewHourReceived;
+        //TextView textViewHourReceived;
+        TextView textViewParcelType;
+        TextView textViewWeight;
+        TextView textViewDate;
+        TextView textViewHour;
+        ImageButton imageButton;
 
         ParcelsTDViewHolder(final View itemView) {
             super(itemView);
-            textViewHourReceived = itemView.findViewById(R.id.nameddd);
-
+            //textViewHourReceived = itemView.findViewById(R.id.nameddd);
+            textViewParcelType = itemView.findViewById(R.id.parceltype);
+            textViewWeight = itemView.findViewById(R.id.weight);
+            textViewDate = itemView.findViewById(R.id.date);
+            textViewHour = itemView.findViewById(R.id.hour);
+            imageButton = itemView.findViewById(R.id.buttonImager);
             itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
 
                 @Override
@@ -98,6 +129,28 @@ public class forMeRecycleViewAdapter extends RecyclerView.Adapter<forMeRecycleVi
             return d + "";
         }
     }
+
+
+    public void IrevicedParcel(Parcel parcel) {
+
+
+        try {
+            FirebaseDatabase database = FirebaseDatabase.getInstance("https://dblogisticare.firebaseio.com/");
+            DatabaseReference ParcelsRef;
+            ParcelsRef = database.getReference("parcels");
+            ParcelsRef = ParcelsRef.child(parcel.getKey());
+            //parcel.setDeliveryman_phone(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
+            parcel.setPackStatus(PackStatus.RECEIVED);
+            parcel.setLastUpdateTime((new Date()).getTime());
+            ParcelsRef.setValue(parcel);
+
+        } catch (Exception e) {
+
+            Toast.makeText(baseContext, e.toString(), Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
 
 
 }

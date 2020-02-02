@@ -40,7 +40,43 @@
 
             />
 
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/breakableText"
+            android:text="Breakable: "
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/weight"
+            android:textSize="16sp"
 
+            />
+
+
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/breakable"
+            android:text="No"
+            app:layout_constraintStart_toEndOf="@id/breakableText"
+            app:layout_constraintTop_toBottomOf="@id/weight"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            android:textSize="16sp"
+
+            />
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonImager"
+            android:src="@drawable/ic_check_black_24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/weight"
+            android:layout_marginTop="10dp"
+
+            />
         <TextView
 
             android:layout_marginTop="15dp"
@@ -50,7 +86,7 @@
             android:id="@+id/date"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/weight"
+            app:layout_constraintTop_toBottomOf="@id/breakableText"
 
             android:text="14/07/2020" />
 
@@ -61,7 +97,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/hour"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/weight"
+            app:layout_constraintTop_toBottomOf="@id/breakableText"
             app:layout_constraintEnd_toEndOf="parent"
             android:text="08:00" />
 

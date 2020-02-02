@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ddb.users.Entities.Parcel;
 import com.ddb.users.R;
 
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -49,7 +51,14 @@ public class HistoryRecycleViewAdapter extends RecyclerView.Adapter<HistoryRecyc
     public void onBindViewHolder(ParcelsTDViewHolder holder, int position) {
         long time = System.currentTimeMillis();
         Parcel parcel = parcels.get(position);
-        holder.textViewHourReceived.setText(parcel.getKey());
+        //holder.textViewHourReceived.setText(parcel.getKey());
+        Calendar calendar = Calendar.getInstance();
+        String date = helperDateAndHour(calendar.get(calendar.DAY_OF_MONTH)) + "/" + helperDateAndHour(calendar.get(Calendar.MONTH) + 1) + "/" + calendar.get(Calendar.YEAR);
+        String hour = helperDateAndHour(calendar.get(Calendar.HOUR)) + ":" + helperDateAndHour(calendar.get(Calendar.MINUTE));
+        holder.textViewDate.setText(date);
+        holder.textViewHour.setText(hour);
+        holder.textViewParcelType.setText(Parcel.PackTypeTosString(parcel.getPackType()));
+        holder.textViewWeight.setText(Parcel.packageWeightTosString(parcel.getPackageWeight()));
     }
 
     @Override
@@ -60,11 +69,20 @@ public class HistoryRecycleViewAdapter extends RecyclerView.Adapter<HistoryRecyc
     class ParcelsTDViewHolder extends RecyclerView.ViewHolder {
 
 
-        TextView textViewHourReceived;
-
+        //TextView textViewHourReceived;
+        TextView textViewParcelType;
+        TextView textViewWeight;
+        TextView textViewDate;
+        TextView textViewHour;
+        ImageButton imageButton;
         ParcelsTDViewHolder(final View itemView) {
             super(itemView);
-            textViewHourReceived = itemView.findViewById(R.id.nameddd);
+            // textViewHourReceived = itemView.findViewById(R.id.nameddd);
+            textViewParcelType = itemView.findViewById(R.id.parceltype);
+            textViewWeight = itemView.findViewById(R.id.weight);
+            textViewDate = itemView.findViewById(R.id.date);
+            textViewHour = itemView.findViewById(R.id.hour);
+            // imageButton = itemView.findViewById(R.id.buttonImager);
 
             itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
 
