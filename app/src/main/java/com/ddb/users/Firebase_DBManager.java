@@ -30,7 +30,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ddb.users.App.CHANNEL_1_ID;
 
 public class Firebase_DBManager {
 
@@ -83,6 +82,10 @@ public class Firebase_DBManager {
 
     }
 
+    public static void TakeParcel(Parcel parcel) {
+
+
+    }
 
     public static void updateParcel(final Parcel toUpdate, final Action<Long> action) {
         final String key = (toUpdate.getKey()).toString();
@@ -156,7 +159,7 @@ public class Firebase_DBManager {
                     /// write if for tet if the parcel in status of sent or offer for shiping
 
                     //  ParcelList.add(Parcel);
-                    sendOnChannel1();
+
 
                 }
 
@@ -165,9 +168,15 @@ public class Firebase_DBManager {
                     Parcel Parcel = dataSnapshot.getValue(Parcel.class);
                     String id = (dataSnapshot.getKey());
                     Parcel.setKey(id);
-                    Parcel parcelT = repository.getParcelById(id).getValue();
-                    if (Parcel.getLastUpdateTime() > parcelT.getLastUpdateTime()) {
+
+                    if (repository.getParcelById(id).getValue() != null) {
+                        Parcel parcelT = repository.getParcelById(id).getValue();
+                        if (Parcel.getLastUpdateTime() > parcelT.getLastUpdateTime()) {
+                            repository.insert(Parcel);
+                        }
+                    } else {
                         repository.insert(Parcel);
+
                     }
 
                 }
@@ -202,21 +211,6 @@ public class Firebase_DBManager {
         }
     }
 
-
-    public static void sendOnChannel1() {
-        String title = "fg";
-        String message = "Fg";
-
-        Notification notification = new NotificationCompat.Builder(context, CHANNEL_1_ID)
-                .setSmallIcon(R.drawable.ic_location_on_black_24dp)
-                .setContentTitle(title)
-                .setContentText(message)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .build();
-
-        notificationManager.notify(1, notification);
-    }
 
 
 

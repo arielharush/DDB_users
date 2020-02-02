@@ -39,7 +39,7 @@ public interface ParcelDao {
     @Query("SELECT * FROM parcels_table WHERE (receiver_phone == :ph AND packStatus == 3)")
     LiveData<List<Parcel>> getAllParcelsForMeHistory(String ph);
 
-    @Query("SELECT * FROM Parcels_table WHERE `key` == :ph")
-    LiveData<Parcel> getParcelbyid(String ph);
+    @Query("SELECT * FROM Parcels_table WHERE `key` == :id")
+    LiveData<Parcel> getParcelbyid(String id);
 
 }

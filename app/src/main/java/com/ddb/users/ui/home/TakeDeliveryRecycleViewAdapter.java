@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,10 +23,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ddb.users.Entities.Enums.PackStatus;
 import com.ddb.users.Entities.Parcel;
+import com.ddb.users.Firebase_DBManager;
 import com.ddb.users.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DecimalFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import static android.view.View.VISIBLE;
@@ -65,9 +71,9 @@ public class TakeDeliveryRecycleViewAdapter extends RecyclerView.Adapter<TakeDel
 
 
     @Override
-    public void onBindViewHolder(ParcelsTDViewHolder holder, int position) {
+    public void onBindViewHolder(ParcelsTDViewHolder holder, final int position) {
         long time = System.currentTimeMillis();
-        Parcel parcel = parcels.get(position);
+        final Parcel parcel = parcels.get(position);
         Calendar calendar = Calendar.getInstance();
         String date = helperDateAndHour(calendar.get(calendar.DAY_OF_MONTH)) + "/" + helperDateAndHour(calendar.get(Calendar.MONTH) + 1) + "/" + calendar.get(Calendar.YEAR);
         String hour = helperDateAndHour(calendar.get(Calendar.HOUR)) + ":" + helperDateAndHour(calendar.get(Calendar.MINUTE));
@@ -79,6 +85,19 @@ public class TakeDeliveryRecycleViewAdapter extends RecyclerView.Adapter<TakeDel
         DecimalFormat decimalFormat = new DecimalFormat("##.##");
         float twoDigitsF = Float.valueOf(decimalFormat.format(d));
         holder.textViewDisFrom.setText("  " + twoDigitsF + "  Km");
+
+        if (parcel.isBreakable()) {
+            holder.textViewBreakable.setText("Yes.");
+
+        } else {
+            holder.textViewBreakable.setText("No.");
+        }
+        holder.imageButtonTake.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                takeParcel(new Parcel(parcel));
+            }
+        });
 
 
     }
@@ -96,7 +115,8 @@ public class TakeDeliveryRecycleViewAdapter extends RecyclerView.Adapter<TakeDel
         TextView textViewParcelType;
         TextView textViewWeight;
         TextView textViewDisFrom;
-
+        TextView textViewBreakable;
+        ImageButton imageButtonTake;
         ParcelsTDViewHolder(final View itemView) {
             super(itemView);
             textViewHour = itemView.findViewById(R.id.hour);
@@ -104,6 +124,8 @@ public class TakeDeliveryRecycleViewAdapter extends RecyclerView.Adapter<TakeDel
             textViewParcelType = itemView.findViewById(R.id.parceltype);
             textViewWeight = itemView.findViewById(R.id.weight);
             textViewDisFrom = itemView.findViewById(R.id.disFrom);
+            textViewBreakable = itemView.findViewById(R.id.breakable);
+            imageButtonTake = itemView.findViewById(R.id.takeButton);
 
             itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
 
@@ -138,5 +160,25 @@ public class TakeDeliveryRecycleViewAdapter extends RecyclerView.Adapter<TakeDel
         }
     }
 
+
+    public void takeParcel(Parcel parcel) {
+
+
+        try {
+            FirebaseDatabase database = FirebaseDatabase.getInstance("https://dblogisticare.firebaseio.com/");
+            DatabaseReference ParcelsRef;
+            ParcelsRef = database.getReference("parcels");
+            ParcelsRef = ParcelsRef.child(parcel.getKey());
+            parcel.setDeliveryman_phone(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
+            parcel.setPackStatus(PackStatus.IN_THE_WHY);
+            parcel.setLastUpdateTime((new Date()).getTime());
+            ParcelsRef.setValue(parcel);
+
+        } catch (Exception e) {
+
+            Toast.makeText(baseContext, e.toString(), Toast.LENGTH_SHORT).show();
+        }
+
+    }
 
 }

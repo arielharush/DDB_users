@@ -68,7 +68,6 @@ public class ParcelRepository {
         return allParcelsForMe;
     }
 
-
     public LiveData<Parcel> getParcelById(String ph) {
         return parcelDao.getParcelbyid(ph);
     }
@@ -109,10 +108,6 @@ public class ParcelRepository {
 
     }
 
-
-
-
-
     private static class UpdateParcelAsynvTask extends AsyncTask<Parcel, Void, Void> {
 
 
@@ -131,7 +126,6 @@ public class ParcelRepository {
         }
     }
 
-
     private static class DeleteParcelAsynvTask extends AsyncTask<Parcel, Void, Void> {
 
 
@@ -149,7 +143,6 @@ public class ParcelRepository {
 
         }
     }
-
 
     private static class DeleteAllParcelsAsynvTask extends AsyncTask<Void, Void, Void> {
 

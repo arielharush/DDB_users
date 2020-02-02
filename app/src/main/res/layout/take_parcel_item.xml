@@ -62,27 +62,64 @@
             android:text="Km" />
 
 
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/takeButton"
+            app:layout_constraintTop_toBottomOf="@id/parceltype"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/ic_check_black_24dp"
+            android:layout_marginTop="5dp" />
+
+
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/breakableText"
+            android:text="Breakable: "
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/locationimage"
+            android:textSize="16sp"
+
+            />
+
+
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/breakable"
+            android:text="No"
+            app:layout_constraintStart_toEndOf="@id/breakableText"
+            app:layout_constraintTop_toBottomOf="@id/locationimage"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            android:textSize="16sp"
+
+            />
+
         <TextView
 
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintWidth_percent="0.7"
             android:id="@+id/date"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/locationimage"
+            app:layout_constraintTop_toBottomOf="@id/breakableText"
 
             android:text="14/07/2020" />
 
 
         <TextView
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/hour"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/locationimage"
+            app:layout_constraintTop_toBottomOf="@id/breakableText"
             app:layout_constraintEnd_toEndOf="parent"
             android:text="08:00" />
 
